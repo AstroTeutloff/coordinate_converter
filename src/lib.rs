@@ -26,9 +26,6 @@ pub mod angles{
                 .parse()
                 .map_err(|_| AngleConstructionError::MapToNumber("second".to_owned()))?;
             
-            dbg!(hourangle);
-            dbg!(arcminutes);
-            dbg!(arcseconds);
             let decimaldegree = (hourangle as f64  + arcminutes as f64 / 60. + arcseconds / 3600.) * 15.;
 
             Ok(Angle::new(decimaldegree))

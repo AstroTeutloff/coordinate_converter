@@ -20,9 +20,17 @@ Just run one of the three included binaries `ddconv` for convertion from
 DD.DDDD DD.DDDD format, `hmsconv` for convertion from HMS DMS format, and
 `dmsconv` for convertion from DMS DMS format.
 
+### Example
+```bash
+ddconv 37.954561 89.264109
+```
+returns `02:31:49.095 +89:15:50.792`.
+
+Running the commands with the `--help` flag is possible.
+
 ## Contributions
 Arrogant that I am, I _think_ I've eradicated all bugs, but should you
 encounter interesting behaviour please let me know via PR or PM.
 
 
-This project was [brainmade](https://brainmade.org/)
+This project was [brainmade](https://brainmade.org/).
