@@ -1,0 +1,94 @@
+pub mod angles{
+    use std::fmt;
+
+    #[derive(Clone, Debug)]
+    pub struct HMSAngle{
+        hourangle: i8,
+        arcminute: u8,
+        arcsecond: f64
+    }
+    impl HMSAngle {
+        pub fn new(hourangle: i8, arcminute: u8, arcsecond: f64) -> HMSAngle {
+            HMSAngle{hourangle, arcminute, arcsecond}
+        }
+        pub fn from_str(input: String) -> HMSAngle {
+            todo!()
+        }
+
+        pub fn to_dms(&self) -> DMSAngle {
+            self.to_decimal().to_dms()
+        }
+
+        pub fn to_decimal(&self) -> DecimalAngle {
+            DecimalAngle((self.hourangle * 15) as f64 + (self.arcminute as f64 / 60.) + self.arcsecond / 3600.)
+        }
+    }
+    impl fmt::Display for HMSAngle {
+        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+            write!(f, "{:02}:{:02}:{:06.3}", self.hourangle, self.arcminute, self.arcsecond)
+        }
+    }
+
+    #[derive(Clone, Debug)]
+    pub struct DMSAngle{
+        degree: i16, 
+        arcminute: u8, 
+        arcsecond: f64
+    }
+    impl DMSAngle {
+        pub fn new(degree: i16, arcminute: u8, arcsecond: f64) -> DMSAngle {
+            DMSAngle{degree, arcminute, arcsecond}
+        }
+
+        pub fn to_hms(&self) -> HMSAngle {
+            self.to_decimal().to_hms()
+        }
+
+        pub fn to_decimal(&self) -> DecimalAngle {
+            DecimalAngle(self.degree as f64 + (self.arcminute as f64 / 60.) + self.arcsecond / 3600.)
+        }
+    }
+    impl fmt::Display for DMSAngle {
+        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+            write!(f, "{:+03}:{:02}:{:06.3}", self.degree, self.arcminute, self.arcsecond)
+        }
+    }
+
+    #[derive(Clone, Debug)]
+    pub struct DecimalAngle(f64);
+    impl DecimalAngle {
+        pub fn new(angle: f64) -> DecimalAngle {
+            DecimalAngle(angle)
+        }
+
+        pub fn to_hms(&self) -> HMSAngle {
+            let sign = self.0.signum() as i8;
+            let abs_angle = self.0.abs();
+
+            let h = abs_angle / 15.;
+            let hours = h.floor();
+            let m = h * 60.0 - hours as f64 * 60.0;
+            let minutes = m.floor() as i32;
+            let seconds = (m - minutes as f64) * 60.0;
+
+            HMSAngle::new(sign * hours as i8, minutes as u8, seconds)
+        }
+
+        pub fn to_dms(&self) -> DMSAngle {
+            let sign = self.0.signum() as i16;
+            let abs_angle = self.0.abs();
+
+            let degree = abs_angle;
+            let minute = abs_angle % 1. * 60.;
+            let second = minute % 1. * 60.;
+
+            DMSAngle::new(sign * degree as i16, minute as u8, second)
+        }
+    }
+    impl fmt::Display for DecimalAngle {
+        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+            write!(f, "{:.6}", self.0)
+        }
+    }
+
+}

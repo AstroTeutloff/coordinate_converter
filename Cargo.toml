@@ -1,0 +1,24 @@
+[package]
+name = "coordinate_converter"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+assert_approx_eq = "1.1.0"
+atty = "0.2.14"
+clap = { version = "4.6.1", features = ["derive"] }
+clap-stdin = "0.8.1"
+thiserror = "2.0.18"
+
+[[bin]]
+name = "ddconv"
+path = "src/ddconv.rs"
+
+
+[[bin]]
+name = "hmsconv"
+path = "src/hmsconv.rs"
+
+[[bin]]
+name = "dmsconv"
+path = "src/hmsconv.rs"
